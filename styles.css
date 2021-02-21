@@ -1,0 +1,53 @@
+body {
+    background-image: url('images/zeldaBackground.jpg');
+    background-size: cover;
+    font-family: Helvetica, sans-serif;
+    margin: 0px;
+}
+
+#gameCanvas {
+    border: 2px solid #000000;
+    padding: 0px;
+    background: rgba(255, 255, 255, 0.6);
+    width: 45%;
+    display: none;
+}
+
+.menuContainer {
+    width: 45%;
+    background: rgba(0, 0, 0, 0.6);
+    margin: auto;
+    margin-top: 15%;
+    color: #ffffff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+#winMenu {
+    display: none;
+    position: absolute;
+    top: 10px;
+    right: 0px;
+    left: 0px;
+    width: 100%;
+}
+
+.title {
+    font-size: 1.5em;
+    font-weight: bold;
+    margin-top: 20px;
+    margin-bottom: 2px;
+}
+
+#menu-content {
+    margin: 20px;
+}
+
+.centered {
+    margin-top: 20px;
+    text-align: center;
+}
+
+.light {
+    color: #c0c0c0;
+}

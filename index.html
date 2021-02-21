@@ -1,0 +1,51 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+    <meta charset="UTF-8">
+    <title>Maze</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="centered">
+        <canvas id="gameCanvas" width="1000" height="1000"></canvas>
+        <div id="menu" class="menuContainer">
+            <div class="title">
+                Link's Labyrinth
+            </div>
+            <div class="light">
+                Navigate the maze and get the Master Sword
+            </div>
+            <div id="menu-content" class="light">
+                <label for="mazeSize-select">
+                    Select Maze Size:
+                </label>
+                <select id="mazeSize-select">
+                    <option value="5">5x5</option>
+                    <option value="10">10x10</option>
+                    <option value="15">15x15</option>
+                    <option value="20">20x20</option>
+                </select>
+                <div class="centered">
+                    <button type="button" id="createMaze-btn" onclick="createMaze()">
+                        Start
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div id="winMenu" class="menuContainer">
+            <div class="title">
+                You win!
+            </div>
+            <div class="centered">
+                <button type="button" id="back-btn" onclick="backToMenu()">
+                    New Game
+                </button>
+            </div>
+        </div>
+    </div>
+    <script src="scripts/mazeGenerator.js"></script>
+    <script src="scripts/input.js"></script>
+    <script src="scripts/renderer.js"></script>
+    <script src="scripts/driver.js"></script>
+</body>
+</html>
