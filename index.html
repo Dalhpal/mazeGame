@@ -7,7 +7,22 @@
 </head>
 <body>
     <div class="centered">
-        <canvas id="gameCanvas" width="1000" height="1000"></canvas>
+        <div id="gameContainer">
+            <div id="gameInfo">
+                <span id="timeContainer">
+                    Time: <span id="totalTime">0:00</span>
+                </span>
+                <span id="scoreContainer">
+                    Score: <span id="score">0</span>
+                </span>
+            </div>
+            <div>
+                <canvas id="gameCanvas" width="1000" height="1000"></canvas>
+            </div>
+            <div id="controlsContainer" class="light">
+                <strong>Controls:</strong> Move = WASD / IJKL / Arrow Keys, Toggle Hint = H, Toggle Solution Path = P, Toggle BreadCrumbs = B
+            </div>
+        </div>
         <div id="menu" class="menuContainer">
             <div class="title">
                 Link's Labyrinth
@@ -15,8 +30,8 @@
             <div class="light">
                 Navigate the maze and get the Master Sword
             </div>
-            <div id="menu-content" class="light">
-                <label for="mazeSize-select">
+            <div class="menu-content" class="light">
+                <label for="mazeSize-select" class="light">
                     Select Maze Size:
                 </label>
                 <select id="mazeSize-select">
@@ -26,11 +41,54 @@
                     <option value="20">20x20</option>
                 </select>
                 <div class="centered">
-                    <button type="button" id="createMaze-btn" onclick="createMaze()">
-                        Start
-                    </button>
+                    <div>
+                        <button type="button" id="createMaze-btn" onclick="createMaze()">
+                            New Game
+                        </button>
+                    </div>
+                    <div>
+                        <button type="button" id="highScores-btn" onclick="viewHighScores()">
+                            High Scores
+                        </button>
+                    </div>
+                    <div>
+                        <button type="button" id="credits-btn" onclick="viewCredits()">
+                            Credits
+                        </button>
+                    </div>
                 </div>
             </div>
+        </div>
+        <div id="highScores" class="menuContainer">
+            <div class="title">
+                High Scores
+            </div>
+            <div class="flexContainer">
+                <div id="5" class="highScoresContainer">5x5</div>
+                <div id="10" class="highScoresContainer">10x10</div>
+                <div id="15" class="highScoresContainer">15x15</div>
+                <div id="20" class="highScoresContainer">20x20</div>
+            </div>
+            <button type="button" onclick="backToMenu()">
+                Back
+            </button>
+        </div>
+        <div id="credits" class="menuContainer">
+            <div class="title">
+                Credits
+            </div>
+            <div class="menu-content">
+                <div class="light">
+                    Developed by Dallin Packer for CS5410
+                </div>
+                <br/>
+                <div class="light">
+                    A02057075
+                </div>
+            </div>
+            <button type="button" onclick="backToMenu()">
+                Back
+            </button>
         </div>
         <div id="winMenu" class="menuContainer">
             <div class="title">
@@ -38,7 +96,7 @@
             </div>
             <div class="centered">
                 <button type="button" id="back-btn" onclick="backToMenu()">
-                    New Game
+                    Back to menu
                 </button>
             </div>
         </div>

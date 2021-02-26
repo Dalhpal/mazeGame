@@ -2,6 +2,8 @@ let MazeGenerator = (function() {
     let size;
     let maze;
     let frontier;
+    let solutionPath;
+    let solutionVisited;
 
     function generateMaze(mazeSize) {
         _setup(mazeSize);
@@ -38,8 +40,6 @@ let MazeGenerator = (function() {
                         touchingFrontier: false
                     },
                     inMaze: false,
-                    containsLink: false,
-                    containsSword: false,
                 })
             }
         }
@@ -162,29 +162,84 @@ let MazeGenerator = (function() {
         maze[positionY][positionX].inMaze = true;
     }
 
-    return {
-        generateMaze: generateMaze,
+    function solveMaze() {
+        _solutionSetup();
+        _recursiveSolve(0, 0);
+        console.log(solutionPath);
+        return solutionPath;
     }
-})();
 
-function printMaze(maze) {
-    let mazeString = '';
-    mazeString += ' _ _ _ _ _ \n'; // make this string as long as the maze size. I know this lazy but I did it anyway
-    for (let i = 0; i < maze.length; i++) {
-        mazeString += '|';
-        for (let j = 0; j < maze[i].length; j++) {
-            if (maze[i][j].bottom.wall) {
-                mazeString += '_';
-            } else {
-                mazeString += ' ';
-            }
-            if (maze[i][j].right.wall) {
-                mazeString += '|';
-            } else {
-                mazeString += ' ';
+    function _solutionSetup() {
+        solutionPath = [];
+        solutionVisited = [];
+        for (let i = 0; i < size; i++) {
+            solutionVisited.push([]);
+            for (let j = 0; j < size; j++) {
+                solutionVisited[i].push(false);
             }
         }
-        mazeString += '\n';
     }
-    console.log(mazeString);
-}
+
+    function _recursiveSolve(positionY, positionX) {
+        if (positionY === maze.length - 1 && positionX === maze.length - 1) {
+            return true;
+        }
+        if (solutionVisited[positionY][positionX]) {
+            return false;
+        }
+        solutionVisited[positionY][positionX] = true;
+        if (positionX > 0 && !maze[positionY][positionX].left.wall) {
+            if (_recursiveSolve(positionY, positionX - 1)) {
+                solutionPath.unshift({x: positionX, y: positionY});
+                return true;
+            }
+        }
+        if (positionX < maze.length - 1 && !maze[positionY][positionX].right.wall) {
+            if (_recursiveSolve(positionY, positionX + 1)) {
+                solutionPath.unshift({x: positionX, y: positionY});
+                return true;
+            }
+        }
+        if (positionY > 0 && !maze[positionY][positionX].top.wall) {
+            if (_recursiveSolve(positionY - 1, positionX)) {
+                solutionPath.unshift({x: positionX, y: positionY});
+                return true;
+            }
+        }
+        if (positionY < maze.length - 1&& !maze[positionY][positionX].bottom.wall) {
+            if (_recursiveSolve(positionY + 1, positionX)) {
+                solutionPath.unshift({x: positionX, y: positionY});
+                return true;
+            }
+        }
+        return false;
+    }
+
+    function printMaze(maze) {
+        let mazeString = '';
+        mazeString += ' _ _ _ _ _ \n'; // make this string as long as the maze size. I know this lazy but I did it anyway
+        for (let i = 0; i < maze.length; i++) {
+            mazeString += '|';
+            for (let j = 0; j < maze[i].length; j++) {
+                if (maze[i][j].bottom.wall) {
+                    mazeString += '_';
+                } else {
+                    mazeString += ' ';
+                }
+                if (maze[i][j].right.wall) {
+                    mazeString += '|';
+                } else {
+                    mazeString += ' ';
+                }
+            }
+            mazeString += '\n';
+        }
+        console.log(mazeString);
+    }
+
+    return {
+        generateMaze: generateMaze,
+        solveMaze: solveMaze,
+        printMaze: printMaze,
+    }
+})();

@@ -17,6 +17,7 @@ let Graphics = (function() {
     }
 
     function drawMaze(maze, mazeSize) {
+        console.log('drawing maze');
         mazeData = maze;
         context.beginPath();
         let cellSize = canvas.width / mazeSize;
@@ -59,6 +60,20 @@ let Graphics = (function() {
         context.stroke();
     }
 
+    function drawPath(solution, texture, cellSize) {
+        for (let i = 0; i < solution.length; i++) {
+            let centerX = solution[i].x * cellSize + (cellSize / 4);
+            let centerY = solution[i].y * cellSize + (cellSize / 4);
+            context.drawImage(
+                texture.image,
+                centerX - texture.centerOffsetX,
+                centerY - texture.centerOffsetY,
+                texture.width,
+                texture.height,
+            );
+        }
+    }
+
     function Texture(spec) {
         let that = {};
         let ready = false;
@@ -79,9 +94,19 @@ let Graphics = (function() {
             return spec.positionY;
         };
 
+        that.getLastPositionX = function() {
+            return spec.lastPositionX;
+        };
+
+        that.getLastPositionY = function() {
+            return spec.lastPositionY;
+        };
+
         that.moveLeft = function(elapsedTime) {
             totalTime += elapsedTime;
             if (spec.positionX > 0 && !mazeData[spec.positionY][spec.positionX].left.wall && nextEvent <= totalTime) {
+                spec.lastPositionX = spec.positionX;
+                spec.lastPositionY = spec.positionY;
                 nextEvent = totalTime + 200;
                 spec.center.x -= spec.moveRate;
                 spec.positionX -= 1;
@@ -91,6 +116,8 @@ let Graphics = (function() {
         that.moveRight = function(elapsedTime) {
             totalTime += elapsedTime;
             if (spec.positionX < mazeData.length && !mazeData[spec.positionY][spec.positionX].right.wall  && nextEvent <= totalTime) {
+                spec.lastPositionX = spec.positionX;
+                spec.lastPositionY = spec.positionY;
                 nextEvent = totalTime + 200;
                 spec.center.x += spec.moveRate;
                 spec.positionX += 1;
@@ -100,6 +127,8 @@ let Graphics = (function() {
         that.moveUp = function(elapsedTime) {
             totalTime += elapsedTime;
             if (spec.positionY > 0 && !mazeData[spec.positionY][spec.positionX].top.wall  && nextEvent <= totalTime) {
+                spec.lastPositionX = spec.positionX;
+                spec.lastPositionY = spec.positionY;
                 nextEvent = totalTime + 200;
                 spec.center.y -= spec.moveRate;
                 spec.positionY -= 1;
@@ -109,6 +138,8 @@ let Graphics = (function() {
         that.moveDown = function(elapsedTime) {
             totalTime += elapsedTime;
             if (spec.positionY < mazeData.length && !mazeData[spec.positionY][spec.positionX].bottom.wall  && nextEvent <= totalTime) {
+                spec.lastPositionX = spec.positionX;
+                spec.lastPositionY = spec.positionY;
                 nextEvent = totalTime + 200;
                 spec.center.y += spec.moveRate;
                 spec.positionY += 1;
@@ -135,8 +166,9 @@ let Graphics = (function() {
     }
 
     return {
-        clear : clear,
-        drawMaze : drawMaze,
-        Texture : Texture,
+        clear: clear,
+        drawMaze: drawMaze,
+        drawPath: drawPath,
+        Texture: Texture,
     };
 }());
